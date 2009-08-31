@@ -136,7 +136,7 @@ if ( SANITY_CHECK === true )
   }
   
   // Set our Required extensions
-  $extension   = array( "dom", "PDO", "SimpleXML", "xsl" );
+  $extension   = array( "dom", "SimpleXML", "xsl" );
   
   // Check for required extensions
   $extensions = get_loaded_extensions( );
