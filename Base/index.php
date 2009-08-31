@@ -197,6 +197,3 @@ include( "Engine/functions.inc" );
 // Create our instance of the debug and framewerk object
 $fMain = fMain::getInstance( );
 $fMain->process( );
-
-// Log the traffic if the configuration says we can
-if ( $fMain->configuration->site->logTraffic['enabled'] ) $log = new fTrafficLog( );

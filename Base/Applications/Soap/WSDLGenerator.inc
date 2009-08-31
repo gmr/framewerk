@@ -1,35 +1,46 @@
 <?php
+/**
+ * WSDLGenerator Class
+ *
+ * The WSDLGenerator Class is an application for outputting a WSDL file based on the PHPDOC information gathered on an application that extends an fSoapApplication
+ *
+ * @name  WSDLGenerator
+ * @author Dallas Gutauckis <dgutauckis@myyearbook.com>
+ * @since 2007-07-20
+ * @link       http://framewerk.org
+ * @license    http://opensource.org/licenses/bsd-license.php BSD License
+ * @copyright  Copyright 2005-2009 the Framewerk Development Group
+ * @uses  fXMLApplication
+ */
 
- /**
-  * tWSDL Class
-  *
-  * The tWSDL Class is an application for outputting a tWSDL file based on the PHPDOC information gathered on an application that extends an fSoapApplication
-  *
-  * @name tWSDL
-  * @author Dallas Gutauckis <dgutauckis@myyearbook.com>
-  * @since 2007-07-20
-  * @uses fXMLApplication
-  * @final
-  *
-  */
-
-final class tWSDLGenerator extends fXMLApplication {
+final class WSDLGenerator extends fXMLApplication 
+{
 
   function __construct()
   {
 //    parent::__construct('application/wsdl+xml');
-    parent::__construct();
+    parent::__construct( );
 
   }
 
-  function execute($values)
+  function execute( $values )
   {
-    if ( count($values) === 0)
-      throw new fHTTPException(404,'No Class Specified');
+    // If we did not specify a class to generate WSDL for, exit
+    if ( ( count( $values ) === 0 ) || 
+         ( count( $this->uriValues ) === 0 ) )
+    {
+      throw new fHTTPException( 404, 'No Class Specified' );
+    }
+    
+    if ( count( $values > 0 ) )
+    {
+      $output = $this->build( $values[0] );
+    } else {
+      $output = $this->build( $this->uriValues[0] );
+    }
 
     // Build our WSDL and add the output to the fOutput buffer
-    $this->build($values[0]);
-    $this->output();
+    $this->output( $output );
 
     // We're done
     return true;
@@ -38,18 +49,18 @@ final class tWSDLGenerator extends fXMLApplication {
   /**
    * Build a WSDL Document
    *
-   * @param string $classStr
+   * @param string Class to get the information on
    * @return string
    */
-  function build($classStr)
+  function build( $classStr )
   {
 
     // Sets our reflection object so we can get methods, properties, and such
-    $classObj = new ReflectionClass($classStr);
-    $classInfo = new fClassInfo($classStr);
+    $classObj = new ReflectionClass( $classStr );
+    $classInfo = new fClassInfo( $classStr );
 
-    if ( false === $classObj->isSubclassOf('tSoapApplication' ) )
-      throw new fHTTPException(501, 'SOAP Application \'' . $classObj->name . '\' does not exist.');
+    if ( false === $classObj->isSubclassOf( 'tSoapApplication' ) )
+      throw new fHTTPException( 501, 'SOAP Application "' . $classObj->name . '" does not exist.');
 
     // Copy the public dom instance for manipulation
     $dom = $this->dom;
@@ -230,7 +241,8 @@ final class tWSDLGenerator extends fXMLApplication {
     // Finally, add the definitions node (rood node) to our DOMDocument
     $dom->appendChild($definitions);
 
-
+    // Return the XML document
     return $dom->saveXML();
   }
+  
 }
