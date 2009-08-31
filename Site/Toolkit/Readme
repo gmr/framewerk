@@ -1,0 +1,3 @@
+Put your own toolkit objects in this directory to keep the Base directory a clean Framewerk install.  If you'd like to override default behavior, put same named classes in this directory.
+
+The directory structure does not need to be flat, you can create your own directory hierarchy.  The only requirement is that the classes must be in stand alone files in the format of Classname.inc.
