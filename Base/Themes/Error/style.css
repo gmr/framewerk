@@ -1,0 +1,67 @@
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #CCC;
+    margin: 20px 10px;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-weight: normal;
+    font-size: 1.5em;
+    margin: 0px 0px 10px 0px;
+    color: #F00;
+    height: 42px;
+    line-height: 42px;
+    background: #fff url(/Themes/Error/Graphics/alert.png) top left no-repeat;
+    padding-left: 58px;
+  }
+
+  h2 {
+    margin: 10px 0px;
+    font-size: 1.3em;
+    font-weight: normal;
+    color: #800;
+  }
+
+  h3 {
+    margin-bottom: 1em;
+    font-size: 1.15em;
+    color: #800;
+    border-bottom: 1px dotted #800;
+    padding-bottom: 0.1em;
+  }
+
+  #main {
+    padding: 10px 15px;
+    margin: 0px 10px;
+    background: #FFF;
+    border: 1px solid #AAA;
+  }
+
+  .section { margin-bottom: 1em; }
+
+  .code {
+    background: #EEE;
+    border: 1px solid #DDD;
+    display: block;
+    font-family: "Lucida Console", "Courier New";
+    font-size: 1em;
+    padding: 0.5em;
+    width: 98.7%;
+  }
+
+    .code .error-line {
+      color: #F00;
+    }
+
+  .version, .client {
+    margin-top: 1em;
+    font-size: 0.85em;
+    font-style: italic;
+  }
