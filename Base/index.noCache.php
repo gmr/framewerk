@@ -1,9 +1,8 @@
 <?php
 /**
- * Framewerk Manager Program.
+ * Framewerk Non-Caching Controlling Program
  *
- * This program is responsbile for the high level operation of the fMain object. All requests are funneled through this
- * via mod_rewrite and .htaccess.
+ * This program is responsbile for the high level operation of the fMain object. All requests are funneled through this script.
  *
  * @author     Gavin M. Roy <gavinmroy@gmail.com>
  * @link       http://framewerk.org
@@ -137,11 +136,7 @@ if ( SANITY_CHECK === true )
   }
   
   // Set our Required extensions
-  $extension   = array( );
-  $extension[] = "PDO";
-  $extension[] = "SimpleXML";
-  $extension[] = "xsl";
-  $extension[] = "dom";
+  $extension   = array( "dom", "PDO", "SimpleXML", "xsl" );
   
   // Check for required extensions
   $extensions = get_loaded_extensions( );

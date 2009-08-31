@@ -1,15 +1,14 @@
 <?php
 /**
- * Framewerk Manager Program.
+ * Framewerk File-Cached Controlling Program
  *
- * This program is responsbile for the high level operation of the fMain object. All requests are funneled through this
- * via mod_rewrite and .htaccess.
+ * This program is responsbile for the high level operation of the fMain object. All requests are funneled through this script.
  *
  * @author     Gavin M. Roy <gavinmroy@gmail.com>
  * @link       http://framewerk.org
  * @license    http://opensource.org/licenses/bsd-license.php BSD License
  * @copyright  Copyright 2004-2009 the Framewerk Development Group
- * @since      2004
+ * @since      2007
  * @package    Engine
  * @subpackage Core
  */
