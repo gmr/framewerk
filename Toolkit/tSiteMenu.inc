@@ -355,4 +355,3 @@ class tSiteMenu extends fObject
     }
   }
 }
-?>

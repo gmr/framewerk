@@ -49,5 +49,3 @@ while ( ( $entry = readdir($dir) ) !== false )
     include_once($path . $entry);
   }
 }
-
-?>

@@ -368,4 +368,3 @@ class tPoll extends fObject
     return $this->pollid;
   }
 }
-?>

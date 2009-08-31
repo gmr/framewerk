@@ -91,4 +91,3 @@ class tMutex extends fObject
     $this->release();
   }
 }
-?>

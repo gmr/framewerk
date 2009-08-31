@@ -38,43 +38,42 @@
    * @subpackage Helpers
    */
 
-  class TPDOAutoCompleteXML extends fXMLApplication
+class PDOAutoCompleteXML extends fXMLApplication
+{
+  public function execute()
   {
-    public function execute()
+    $dom = new DOMDocument();
+    $dom->formatOutput = true;
+    $node = $dom->createElement('ajaxresponse');
+
+    if ( strlen($this->uriValues[0]) != 32 || strlen($this->uriValues[1]) != 32 || !strlen($_POST['value']) )
+      return $this->output($dom->saveXML($node));
+
+    $registry = new fRegistry($this);
+
+    $query = $this->PDO->prepare('SELECT t.tablename as table, f.attname as field FROM pg_tables t JOIN pg_class c ON c.relname = t.tablename JOIN pg_attribute f ON c.oid = f.attrelid WHERE relkind = \'r\' and f.attnum > 0 AND t.schemaname = \'public\' and md5(f.attname || ?) = ? AND md5(t.tablename || ?) = ?;');
+    $query->bindParam(1, $registry->pdoObfuscator);
+    $query->bindParam(2, $this->uriValues[1]);
+    $query->bindParam(3, $registry->pdoObfuscator);
+    $query->bindParam(4, $this->uriValues[0]);
+    $query->execute();
+
+    if ( !$tableData = $query->fetch(PDO::FETCH_OBJ) )
+      return $this->output($dom->saveXML($node));
+
+    $query = $this->PDO->prepare('SELECT ' . $tableData->field . ' FROM ' . $tableData->table . ' WHERE ' . $tableData->field . ' LIKE \'%\' || :search || \'%\'');
+    $query->bindParam(':search', $_POST['value']);
+    $query->execute();
+
+    foreach( $query->fetchAll(PDO::FETCH_OBJ) as $row )
     {
-      $dom = new DOMDocument();
-      $dom->formatOutput = true;
-      $node = $dom->createElement('ajaxresponse');
-
-      if ( strlen($this->uriValues[0]) != 32 || strlen($this->uriValues[1]) != 32 || !strlen($_POST['value']) )
-        return $this->output($dom->saveXML($node));
-
-      $registry = new fRegistry($this);
-
-      $query = $this->PDO->prepare('SELECT t.tablename as table, f.attname as field FROM pg_tables t JOIN pg_class c ON c.relname = t.tablename JOIN pg_attribute f ON c.oid = f.attrelid WHERE relkind = \'r\' and f.attnum > 0 AND t.schemaname = \'public\' and md5(f.attname || ?) = ? AND md5(t.tablename || ?) = ?;');
-      $query->bindParam(1, $registry->pdoObfuscator);
-      $query->bindParam(2, $this->uriValues[1]);
-      $query->bindParam(3, $registry->pdoObfuscator);
-      $query->bindParam(4, $this->uriValues[0]);
-      $query->execute();
-
-      if ( !$tableData = $query->fetch(PDO::FETCH_OBJ) )
-        return $this->output($dom->saveXML($node));
-
-      $query = $this->PDO->prepare('SELECT ' . $tableData->field . ' FROM ' . $tableData->table . ' WHERE ' . $tableData->field . ' LIKE \'%\' || :search || \'%\'');
-      $query->bindParam(':search', $_POST['value']);
-      $query->execute();
-
-      foreach( $query->fetchAll(PDO::FETCH_OBJ) as $row )
-      {
-        $item = $dom->createElement('item');
-        $item->appendChild($dom->createElement('text', $row->{$tableData->field}));
-        $item->appendChild($dom->createElement('value', $row->{$tableData->field}));
-        $node->appendChild($item);
-      }
-
-      $this->output($dom->saveXML($node));
-      return true;
+      $item = $dom->createElement('item');
+      $item->appendChild($dom->createElement('text', $row->{$tableData->field}));
+      $item->appendChild($dom->createElement('value', $row->{$tableData->field}));
+      $node->appendChild($item);
     }
+
+    $this->output($dom->saveXML($node));
+    return true;
   }
-?>
+}

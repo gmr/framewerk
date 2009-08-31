@@ -479,5 +479,3 @@ class tPDOStatement extends PDOStatement
     $this->tPDO = & $tPDO;
   }
 }
-
-?>

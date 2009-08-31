@@ -468,4 +468,3 @@ class fRegistryNode implements Iterator
   }
 
 }
-?>

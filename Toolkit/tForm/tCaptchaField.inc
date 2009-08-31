@@ -38,34 +38,33 @@
  * @subpackage Form
    */
 
-  class tCaptchaField extends tFormField
+class tCaptchaField extends tFormField
+{
+  /**
+   * @param string $name
+   * @param string $label
+   * @param string $value
+   * @param array $options
+   * @return fCaptchaField
+   */
+  function __construct($name, $label, $value = NULL, $options = NULL)
   {
-    /**
-     * @param string $name
-     * @param string $label
-     * @param string $value
-     * @param array $options
-     * @return fCaptchaField
-     */
-    function __construct($name, $label, $value = NULL, $options = NULL)
-    {
-      if ( !isset($options) ) $options['required'] = true;
-      parent::__construct($name, $label, $value, $options);
-      $this->type = "tCaptchaField";
-      $this->validationError = 'Human Input Validation Failed';
-      $this->value = '';
-    }
-
-    function validate()
-    {
-      $sessionData = fSession::getInstance()->getPersistVariables('tCaptchaImage');
-      if ( $_REQUEST[$this->name] == $sessionData['string'] )
-      {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    if ( !isset($options) ) $options['required'] = true;
+    parent::__construct($name, $label, $value, $options);
+    $this->type = "tCaptchaField";
+    $this->validationError = 'Human Input Validation Failed';
+    $this->value = '';
   }
 
-?>
+  function validate()
+  {
+    $sessionData = fSession::getInstance()->getPersistVariables('tCaptchaImage');
+    if ( $_REQUEST[$this->name] == $sessionData['string'] )
+    {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+}

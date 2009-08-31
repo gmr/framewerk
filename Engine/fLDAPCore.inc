@@ -649,4 +649,5 @@ class fLDAPCore extends fSingletonObject
     }
     return $this->int8ToTimestamp($lastlogon);
   }
+
 }

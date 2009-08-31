@@ -37,30 +37,29 @@
    * @version    $Rev: 919 $
    */
 
-  class fCalendarIF extends fApplication 
+class CalendarIF extends fApplication 
+{
+  function block()
   {
-    function block()
-    {
-      $cal = new fCalendar("month", "small");
-      //XXX: use the calendar title as the block title
-      $this->blockTitle = "";
-      return $cal->getXHTML() . "<div><a href='/calendar/'>View Calendar</a></div>";
-    }
-    
-    function execute()
-    {
-      $this->pageName("{!i18n:Calendar of Events}");
-      $this->fTheme->addObjectCSSFile('fCalendar');
-      $cal = new fCalendar("month", "small");
-      $xml = $cal->getXML();
-      $this->output($xml, true, 'fCalendar');
-      $this->output('<hr />');
-      
-      //XXX: This is for debugging only:
-      $this->output(nl2br(htmlentities($cal->getXML())));
-      
-      return true;
-    }
-   
+    $cal = new fCalendar("month", "small");
+    //XXX: use the calendar title as the block title
+    $this->blockTitle = "";
+    return $cal->getXHTML() . "<div><a href='/calendar/'>View Calendar</a></div>";
   }
-?>
+  
+  function execute()
+  {
+    $this->pageName("{!i18n:Calendar of Events}");
+    $this->fTheme->addObjectCSSFile('fCalendar');
+    $cal = new fCalendar("month", "small");
+    $xml = $cal->getXML();
+    $this->output($xml, true, 'fCalendar');
+    $this->output('<hr />');
+    
+    //XXX: This is for debugging only:
+    $this->output(nl2br(htmlentities($cal->getXML())));
+    
+    return true;
+  }
+ 
+}

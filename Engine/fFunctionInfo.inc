@@ -111,5 +111,5 @@ class fFunctionInfo
   {
     return $this->values[$variable];
   }
+  
 }
-?>

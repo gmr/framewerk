@@ -93,4 +93,3 @@ function debugTickFile()
   $output = "Tick #$tickCalls: [ $_SERVER[REQUEST_URI] ] - $file $call[line] - $call[class] - $call[function]\n";
   fputs($fp, $output);
 }
-?>

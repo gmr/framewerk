@@ -494,5 +494,5 @@ class fParser
     $this->parseDepth--;
     return $returnData;
   }
+  
 }
-?>

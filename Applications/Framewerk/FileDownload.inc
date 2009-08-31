@@ -39,64 +39,63 @@
    * @version    $Rev: 881 $
    */
 
-  class FileDownload extends fBinaryApplication
+class FileDownload extends fBinaryApplication
+{
+  private $id, $obj;
+
+  function execute($key = NULL)
   {
-    private $id, $obj;
+    // Set our obj wide vars
+    $this->setVariables();
 
-    function execute($key = NULL)
-    {
-      // Set our obj wide vars
-      $this->setVariables();
-
-      $filestore = new fFileStorage($this->obj);
-      return $filestore->send($this->id);
-    }
-
-    function modified($key, $timestamp)
-    {
-      // Set our obj wide vars
-      $this->setVariables();
-
-      // Create our filestore and return if it's been modified or not
-      $filestore = new fFileStorage($this->obj);
-      return $filestore->isModified($this->id);
-    }
-
-    /**
-     * Set our object wide variables
-     */
-    function setVariables()
-    {
-      // Set what we expect our parameters to be
-      $obj = $this->uriValues[0];
-      $id = intval($this->uriValues[1]);
-
-      // if we added an extension for asthetic purposes, remove it and just use the id
-      if ( strstr($id, '.') )
-      {
-        $temp = explode('.', $id);
-        $id = intval($temp[0]);
-      }
-
-      // If the $obj var is actually our id, use that
-      if ( intval($obj) > 0 )
-      {
-        if ( strstr($obj, '.') )
-        {
-          $temp = explode('.', $obj);
-          $obj = intval($temp[0]);
-        }
-        $query = $this->PDO->prepare('SELECT obj FROM tfilestorage WHERE id = :id;');
-        $query->bindParam(':id', $obj);
-        $query->execute();
-        $data = $query->fetch(PDO::FETCH_OBJ);
-        $id = $obj;
-        $obj = $data->obj;
-      }
-
-      // Set our object wide values
-      $this->id = $id;
-      $this->obj = $obj;
-    }
+    $filestore = new fFileStorage($this->obj);
+    return $filestore->send($this->id);
   }
-?>
+
+  function modified($key, $timestamp)
+  {
+    // Set our obj wide vars
+    $this->setVariables();
+
+    // Create our filestore and return if it's been modified or not
+    $filestore = new fFileStorage($this->obj);
+    return $filestore->isModified($this->id);
+  }
+
+  /**
+   * Set our object wide variables
+   */
+  function setVariables()
+  {
+    // Set what we expect our parameters to be
+    $obj = $this->uriValues[0];
+    $id = intval($this->uriValues[1]);
+
+    // if we added an extension for asthetic purposes, remove it and just use the id
+    if ( strstr($id, '.') )
+    {
+      $temp = explode('.', $id);
+      $id = intval($temp[0]);
+    }
+
+    // If the $obj var is actually our id, use that
+    if ( intval($obj) > 0 )
+    {
+      if ( strstr($obj, '.') )
+      {
+        $temp = explode('.', $obj);
+        $obj = intval($temp[0]);
+      }
+      $query = $this->PDO->prepare('SELECT obj FROM tfilestorage WHERE id = :id;');
+      $query->bindParam(':id', $obj);
+      $query->execute();
+      $data = $query->fetch(PDO::FETCH_OBJ);
+      $id = $obj;
+      $obj = $data->obj;
+    }
+
+    // Set our object wide values
+    $this->id = $id;
+    $this->obj = $obj;
+  }
+}

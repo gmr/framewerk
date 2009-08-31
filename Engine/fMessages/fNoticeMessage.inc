@@ -57,5 +57,5 @@ class fNoticeMessage extends fMessage
     }
     return false;
   }
+  
 }
-?>

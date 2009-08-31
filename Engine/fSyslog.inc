@@ -75,4 +75,3 @@ class fSyslog extends fSingletonObject
     }
   }
 }
-?>

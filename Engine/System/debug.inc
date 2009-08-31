@@ -97,4 +97,3 @@ function exceptionHandler($exception)
 error_reporting(E_ALL ^ ( E_USER_ERROR | E_USER_NOTICE | E_USER_WARNING | E_NOTICE | E_WARNING ) );
 set_error_handler('errorHandler', E_USER_ERROR | E_USER_NOTICE | E_USER_WARNING  | E_NOTICE | E_WARNING );
 set_exception_handler('exceptionHandler');
-?>

@@ -588,5 +588,3 @@ class StompConnection
     }
   }
 }
-
-?>

@@ -152,5 +152,5 @@ abstract class fEngineInformation
   {
     self::$stats[$section][$type] += round( $value, 4 );
   }
+  
 }
-?>

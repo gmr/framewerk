@@ -50,4 +50,3 @@ abstract class fi18nLoader
   abstract function loadData();
   abstract function rehashKey();
 }
-?>

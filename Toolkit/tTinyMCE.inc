@@ -109,4 +109,3 @@ JAVASCRIPT;
     $this->fTheme->htmlHead($javascript);
   }
 }
-?>

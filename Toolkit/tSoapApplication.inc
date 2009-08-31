@@ -48,5 +48,3 @@ abstract class tSoapApplication
   // Set this to true
   static $soapApplication = true;
 }
-
-?>

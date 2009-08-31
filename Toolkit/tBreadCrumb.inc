@@ -108,4 +108,3 @@ class tBreadCrumb extends fSingletonObject
     return true;
   }
 }
-?>

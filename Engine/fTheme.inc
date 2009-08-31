@@ -671,4 +671,3 @@ class fTheme extends fSingletonObject
   }
 
 }
-?>

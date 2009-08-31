@@ -92,5 +92,5 @@ class fi18nXMLLoader extends fi18nLoader
   {
     return filemtime($file);
   }
+  
 }
-?>

@@ -56,4 +56,3 @@ class tSubmitField extends tFormField
     $this->type = "tSubmitField";
   }
 }
-?>

@@ -62,4 +62,3 @@ class fUserException extends Exception
     }
   }
 }
-?>

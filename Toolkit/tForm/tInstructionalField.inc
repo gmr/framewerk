@@ -52,4 +52,3 @@ class tInstructionalField extends tFormField
     $this->type = "tInstructionalField";
   }
 }
-?>

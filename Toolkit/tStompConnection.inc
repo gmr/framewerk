@@ -118,5 +118,3 @@ class tStompConnection extends StompConnection
     $this->disconnect();
   }
 }
-
-?>

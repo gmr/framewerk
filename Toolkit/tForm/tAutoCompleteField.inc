@@ -76,5 +76,5 @@ INIT;
       $this->options = $options;
     }
   }
+  
 }
-?>

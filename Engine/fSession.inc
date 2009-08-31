@@ -606,5 +606,5 @@ class fSession extends fSingletonObject
   {
     $this->save();
   }
+  
 }
-?>

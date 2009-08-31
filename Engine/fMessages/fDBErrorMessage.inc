@@ -72,5 +72,5 @@ class fDBErrorMessage extends fMessage
     $message .= "  " . $errInfo[2];
     $this->message = $message;
   }
+  
 }
-?>

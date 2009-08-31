@@ -55,5 +55,3 @@ function returnUsername($values = NULL)
   $user = new fUser($values);
   return $user->username;
 }
-
-?>

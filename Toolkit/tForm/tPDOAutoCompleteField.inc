@@ -68,4 +68,3 @@ class tPDOAutoCompleteField extends tFormField
     $jQuery->addInit('$("input#' . $name . '").PDOAutoCompleter({t: "' . $table . '", f: "' . $field . '"});');
   }
 }
-?>

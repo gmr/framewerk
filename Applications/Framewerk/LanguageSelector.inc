@@ -38,21 +38,20 @@
    * @version    $Rev 1$
    */
 
-  class LanguageSelector extends fApplication
+class LanguageSelector extends fApplication
+{
+  public function execute()
   {
-    public function execute()
+    $this->ignoreURIUnderscore();
+
+    if ( $this->fSession->validLanguage($this->uriValues[0]) )
     {
-      $this->ignoreURIUnderscore();
-
-      if ( $this->fSession->validLanguage($this->uriValues[0]) )
-      {
-        $this->fSession->language = $this->uriValues[0];
-        $this->fMessages->add(new fSuccessMessage('Language Updated'));
-      } else {
-        $this->fMessages->add(new fErrorMessage('Language Error'));
-      }
-
-      return $this->returnToReferrer();
+      $this->fSession->language = $this->uriValues[0];
+      $this->fMessages->add(new fSuccessMessage('Language Updated'));
+    } else {
+      $this->fMessages->add(new fErrorMessage('Language Error'));
     }
+
+    return $this->returnToReferrer();
   }
-?>
+}

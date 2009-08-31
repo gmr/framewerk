@@ -72,4 +72,3 @@ class fTrafficLog extends fObject
     $query->execute();
   }
 }
-?>

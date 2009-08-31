@@ -140,5 +140,5 @@ class fMessages extends fSingletonObject
     $this->fDebug->add('Saving messages to Session');
     $this->fSession->message = serialize($this->messages);
   }
+  
 }
-?>

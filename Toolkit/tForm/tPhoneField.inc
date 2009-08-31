@@ -77,4 +77,3 @@ class tPhoneField extends tFormField
     return parent::buildOutput();
   }
 }
-?>

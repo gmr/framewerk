@@ -37,26 +37,25 @@
   * @subpackage Library
   */
 
-  function SetXPath($xml, $xpath, $value)
-  {
-    $temp = $this->DrillXPath($xml, $xpath);
-    $temp['type'] = gettype($value);
-    $temp[0] = $value;
-  }
+function SetXPath($xml, $xpath, $value)
+{
+  $temp = $this->DrillXPath($xml, $xpath);
+  $temp['type'] = gettype($value);
+  $temp[0] = $value;
+}
 
-  function DrillXPath($xml, $xpath)
+function DrillXPath($xml, $xpath)
+{
+  $temp = $xml;
+  $xpath = preg_replace("/^[\/]+/", "", $xpath);
+  $parts = split("/", $xpath);
+  foreach($parts as $key)
   {
-    $temp = $xml;
-    $xpath = preg_replace("/^[\/]+/", "", $xpath);
-    $parts = split("/", $xpath);
-    foreach($parts as $key)
+    if ( isset($temp->$key) )
     {
-      if ( isset($temp->$key) )
-      {
-        $this->parent->debug("Drilling $key", 1);
-        $temp = $temp->$key;
-      } else return $this->Out->error("$key");
-    }
-    return $temp;
+      $this->parent->debug("Drilling $key", 1);
+      $temp = $temp->$key;
+    } else return $this->Out->error("$key");
   }
-?>
+  return $temp;
+}

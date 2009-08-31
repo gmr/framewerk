@@ -95,4 +95,3 @@ class tSoapServer extends fApplication
   }
 
 }
-?>

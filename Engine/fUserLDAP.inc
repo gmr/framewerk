@@ -167,4 +167,3 @@ class fUserLDAP extends fUserBackend
     return false;
   }
 }
-?>

@@ -146,4 +146,3 @@ abstract class fUserBackend extends fObject
     return false;
   }
 }
-?>

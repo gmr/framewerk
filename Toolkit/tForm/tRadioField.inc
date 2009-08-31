@@ -74,5 +74,3 @@ class tRadioField extends tFormField
   }
 
 }
-
-?>

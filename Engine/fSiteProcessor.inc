@@ -537,4 +537,3 @@ TEMPLATE;
     return trim($result);
   }
 }
-?>

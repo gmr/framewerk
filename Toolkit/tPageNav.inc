@@ -209,4 +209,3 @@ class tPageNav extends fObject
   }
 
 }
-?>

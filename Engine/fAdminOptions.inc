@@ -87,5 +87,5 @@ class fAdminOptions extends fObject
     // Return the output
     return $output;
   }
+  
 }
-?>

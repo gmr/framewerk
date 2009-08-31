@@ -616,4 +616,3 @@ class fMemcache extends fObject
   }
 
 }
-?>

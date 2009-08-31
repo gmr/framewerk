@@ -289,4 +289,3 @@ class fUser extends fObject
     return $this->dataInterface->removeRole($role);
   }
 }
-?>

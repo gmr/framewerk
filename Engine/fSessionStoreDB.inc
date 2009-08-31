@@ -208,5 +208,5 @@ class fSessionStoreDB implements iSessionStore
     $x = $this->countSessions() - $this->countAuthedSessions();
     return $x;
   }
+  
 }
-?>

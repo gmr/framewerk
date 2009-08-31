@@ -318,5 +318,5 @@ class fMain extends fSingletonObject
 // Log the traffic if the configuration says we can
 //if ( $fMain->configuration->site->logTraffic['enabled'] ) $log = new fTrafficLog();
   }
+
 }
-?>

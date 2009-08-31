@@ -104,5 +104,5 @@ abstract class fMessage
    * @return DOMNode
    */
   abstract function xml();
+
 }
-?>

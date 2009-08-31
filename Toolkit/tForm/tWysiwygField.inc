@@ -130,4 +130,3 @@ class tWysiwygField extends tFormField
     return parent::buildOutput();
   }
 }
-?>

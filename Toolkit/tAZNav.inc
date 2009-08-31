@@ -97,4 +97,3 @@ class tAZNav extends fObject
     return $page;
   }
 }
-?>

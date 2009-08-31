@@ -243,4 +243,3 @@ class fDebug extends fEngineInformation
   }
 
 }
-?>

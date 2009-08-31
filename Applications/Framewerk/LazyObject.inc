@@ -40,17 +40,16 @@
    * @version    $Rev: 903 $
    */
 
-  class LazyObject extends fApplication
+class LazyObject extends fApplication
+{
+  function execute($key = NULL)
   {
-    function execute($key = NULL)
+    if ( class_exists($key) )
     {
-      if ( class_exists($key) )
-      {
-        $this->fDebug->add("Loading: $key", 4);
-        $obj = new $key();
-        return $obj->execute();
-      } else
-        return false;
-    }
+      $this->fDebug->add("Loading: $key", 4);
+      $obj = new $key();
+      return $obj->execute();
+    } else
+      return false;
   }
-?>
+}

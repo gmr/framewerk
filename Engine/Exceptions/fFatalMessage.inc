@@ -131,4 +131,3 @@ class fFatalMessage
     return $dom;
   }
 }
-?>

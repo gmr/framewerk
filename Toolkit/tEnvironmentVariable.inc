@@ -47,4 +47,3 @@ class tEnvironmentVariable
     return $_SERVER[$variable];
   }
 }
-?>

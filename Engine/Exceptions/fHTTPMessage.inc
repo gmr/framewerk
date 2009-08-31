@@ -289,5 +289,3 @@ class fHTTPMessage extends fFatalMessage
     return $dom->saveHTML();
   }
 }
-
-?>

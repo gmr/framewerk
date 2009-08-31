@@ -39,16 +39,15 @@
    * @version    $Rev: 919 $
    */
 
-  class i18nKeyView extends fApplication
+class i18nKeyView extends fApplication
+{
+
+  function execute($key)
   {
-
-    function execute($key)
-    {
-      $key = $this->uriValues[0];
-      $this->pageName($key);
-      $this->output("{!i18n:$key}");
-      return true;
-    }
-
+    $key = $this->uriValues[0];
+    $this->pageName($key);
+    $this->output("{!i18n:$key}");
+    return true;
   }
-?>
+
+}

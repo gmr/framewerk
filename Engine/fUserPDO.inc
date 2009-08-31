@@ -487,4 +487,3 @@ class fUserPDO extends fUserBackend
     return false;
   }
 }
-?>

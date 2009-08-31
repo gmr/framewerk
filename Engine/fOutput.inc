@@ -445,4 +445,3 @@ class fOutput extends fSingletonObject
   }
 
 }
-?>

@@ -297,4 +297,3 @@ class tEmail extends fObject
     return imap_8bit( $sString );
   }
 }
-?>

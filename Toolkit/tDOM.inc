@@ -1150,5 +1150,3 @@ class tDOM extends fObject
   }
 
 }
-
-?>

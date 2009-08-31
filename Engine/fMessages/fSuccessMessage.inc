@@ -57,5 +57,5 @@ class fSuccessMessage extends fMessage
     }
     return false;
   }
+  
 }
-?>

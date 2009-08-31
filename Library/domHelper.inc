@@ -150,4 +150,3 @@ function array2dom($dom, $parent, $array)
     }
   }
 }
-?>

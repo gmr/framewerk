@@ -108,4 +108,3 @@ class tHierNav extends fSingletonObject
     return '<div class="tHierNav">' . join($this->separator, $pages) . '</div>';
   }
 }
-?>

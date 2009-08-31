@@ -80,4 +80,3 @@ class fHTTPException extends Exception
       $this->message = $message;
   }
 }
-?>

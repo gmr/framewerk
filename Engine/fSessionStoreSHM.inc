@@ -207,5 +207,5 @@ class fSessionStoreSHM implements iSessionStore
   {
     return 0;
   }
+
 }
-?>

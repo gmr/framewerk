@@ -83,5 +83,5 @@ class fIP2Country
   {
     unset($this->module);
   }
+
 }
-?>

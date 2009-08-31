@@ -124,4 +124,3 @@ class fUserProfilePDO extends fUserProfileBackend
   }
 
 }
-?>

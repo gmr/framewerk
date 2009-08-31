@@ -84,4 +84,3 @@ interface iSessionStore
   function countGuestSessions();
 
 }
-?>

@@ -145,4 +145,3 @@ class tSelectField extends tFormField
     return $parent;
   }
 }
-?>

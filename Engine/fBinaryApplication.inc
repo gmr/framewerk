@@ -67,5 +67,5 @@ abstract class fBinaryApplication extends fApplication
     // Don't use the theme or try and merge them
     $this->fTheme->useTheme(false);
   }
+  
 }
-?>

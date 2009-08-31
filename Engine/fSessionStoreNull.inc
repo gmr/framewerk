@@ -107,4 +107,5 @@ class fSessionStoreNull implements iSessionStore
   {
     return 0;
   }
+
 }

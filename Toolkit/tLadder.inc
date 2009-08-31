@@ -764,4 +764,3 @@ class tLadder extends fObject
     return $table;
   }
 }
-?>

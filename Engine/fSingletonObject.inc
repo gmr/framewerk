@@ -176,4 +176,3 @@ abstract class fSingletonObject
      */
   }
 }
-?>

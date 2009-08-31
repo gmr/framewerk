@@ -234,5 +234,3 @@ final class tWSDLGenerator extends fXMLApplication {
     return $dom->saveXML();
   }
 }
-
-?>

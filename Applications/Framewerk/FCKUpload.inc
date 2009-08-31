@@ -39,32 +39,31 @@
    * @version    $Rev: 919 $
    */
 
-  class FCKUpload extends fApplication
+class FCKUpload extends fApplication
+{
+  function execute()
   {
-    function execute()
-    {
-      $this->fTheme->useTheme(false);
+    $this->fTheme->useTheme(false);
 
-      if ( is_uploaded_file($_FILES['NewFile']['tmp_name']))
-      {
-        $storage = new fFileStorage($this);
-        $id = $storage->save($_FILES['NewFile']['tmp_name'], $_FILES['NewFile']['type'], $this->fSession->uid, 'All');
-        $type = explode('/', $_FILES['NewFile']['type']);
-        $type = $type[1];
-        $output = <<<OUTPUT
+    if ( is_uploaded_file($_FILES['NewFile']['tmp_name']))
+    {
+      $storage = new fFileStorage($this);
+      $id = $storage->save($_FILES['NewFile']['tmp_name'], $_FILES['NewFile']['type'], $this->fSession->uid, 'All');
+      $type = explode('/', $_FILES['NewFile']['type']);
+      $type = $type[1];
+      $output = <<<OUTPUT
 <script type="text/javascript">
-  window.parent.OnUploadCompleted(0, '/download/FCKUpload/$id.$type');
+window.parent.OnUploadCompleted(0, '/download/FCKUpload/$id.$type');
 </script>
 OUTPUT;
-      } else {
-        $output = <<<OUTPUT
+    } else {
+      $output = <<<OUTPUT
 <script type="text/javascript">
-  window.parent.OnUploadCompleted(101, 'Invalid uploaded file.');
+window.parent.OnUploadCompleted(101, 'Invalid uploaded file.');
 </script>
 OUTPUT;
-      }
-      $this->output($output);
-      return true;
     }
+    $this->output($output);
+    return true;
   }
-?>
+}

@@ -84,4 +84,3 @@ abstract class fXMLApplication extends fApplication
     parent::output($value,$transform,$xslFile);
   }
 }
-?>

@@ -59,4 +59,3 @@ class tHeadlineField extends tFormField
     }
   }
 }
-?>

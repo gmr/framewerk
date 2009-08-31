@@ -215,4 +215,3 @@ class tjQueryLiveGrid extends fObject
   }
 
 }
-?>

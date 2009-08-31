@@ -126,5 +126,5 @@ class fClassInfo
   {
     return $this->values[$variable];
   }
+
 }
-?>

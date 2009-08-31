@@ -74,5 +74,5 @@ class tCheckField extends tFormField
     if ( ( $this->options['required'] == true ) && ( $this->value != 'on' ) ) return false;
     return true;
   }
+  
 }
-?>

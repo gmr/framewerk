@@ -91,4 +91,3 @@ abstract class fUserProfileBackend extends fObject
   abstract function loadUserData();
 
 }
-?>

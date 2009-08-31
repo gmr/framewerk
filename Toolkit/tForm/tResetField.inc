@@ -51,4 +51,3 @@ class tResetField extends tFormField
     $this->type = "tResetField";
   }
 }
-?>

@@ -53,4 +53,3 @@ class tTextField extends tFormField
     $this->type = 'tTextField';
   }
 }
-?>

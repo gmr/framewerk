@@ -439,4 +439,3 @@
     function addField($field) { $this->warn('addField'); $this->add($field); }
     function makeForm() { $this->warn('makeForm'); return $this->buildOutput(); }
   }
-?>

@@ -74,4 +74,3 @@ class tFileMap extends fObject
   }
 
 }
-?>

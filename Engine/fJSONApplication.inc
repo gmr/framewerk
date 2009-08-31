@@ -119,4 +119,3 @@ abstract class fJSONApplication extends fApplication
   }
 
 }
-?>

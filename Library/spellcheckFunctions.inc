@@ -95,4 +95,3 @@ function spellcheck_replace_suggestions($string, $words)
   }
   return $string;
 }
-?>

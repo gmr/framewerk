@@ -234,5 +234,5 @@ class fi18n extends fSingletonObject
     }
     return false;
   }
+  
 }
-?>

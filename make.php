@@ -450,4 +450,3 @@ XSLTEMPLATE;
   }
 
   msg('Successfully created a new Application called "' . $applicationName . '".', true);
-?>

@@ -760,4 +760,3 @@ class tCaptchaImage extends fApplication
   }
 
 }
-?>

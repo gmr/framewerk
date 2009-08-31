@@ -68,4 +68,3 @@ class tPasswordField extends tTextField
     return true;
   }
 }
-?>

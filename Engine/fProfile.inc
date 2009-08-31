@@ -241,5 +241,5 @@ class fProfile extends fEngineInformation
     if ( $this->enabled != true || !count($this->messages) ) return false;
     return true;
   }
+
 }
-?>

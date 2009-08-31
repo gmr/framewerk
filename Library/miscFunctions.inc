@@ -599,4 +599,3 @@ function getServerVariable($variable)
 {
   return $_SERVER[$variable[0]];
 }
-?>

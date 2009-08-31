@@ -304,5 +304,5 @@ class tFileStorage extends fObject
     $TOutput->setContent($this->get($id));
     return true;
   }
+
 }
-?>

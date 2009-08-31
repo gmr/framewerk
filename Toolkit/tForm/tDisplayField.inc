@@ -58,4 +58,3 @@ class tDisplayField extends tFormField
     $this->type = 'tDisplayField';
   }
 }
-?>

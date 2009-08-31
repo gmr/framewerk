@@ -57,4 +57,3 @@ class tFileUploadField extends tFormField
     //$this->parent->setEnctype('multipart/form-data');
   }
 }
-?>
