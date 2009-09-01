@@ -54,10 +54,8 @@ class fHTTPMessage extends fFatalMessage
     // Call parent constructor
     parent::__construct();
 
-    // Set the protocol we're using
-    $protocol = $_SERVER['SERVER_PROTOCOL'];
-
-    switch ( $exception->getCode() )
+    // Decide what to show the user
+    switch ( $exception->getCode( ) )
     {
       case 404:
         $this->error = '404 Not Found';
@@ -67,7 +65,10 @@ class fHTTPMessage extends fFatalMessage
 
       case 403:
         // Check if logged in
+        /**
+         * Todo I don't this this belongs here.  At best, it could be in fSession?
         $registry = new fRegistry($this);
+
         if ( fSession::getInstance()->isAuthenticated() == 'false' )
         {
           // Should we redirect the client?
@@ -81,7 +82,7 @@ class fHTTPMessage extends fFatalMessage
             header( 'Location: ' . $redir . '?redirect=' . urlencode( $referer ) );
             exit();
           }
-        }
+        } */
 
         $this->error = '403: Forbidden';
         $this->description = 'You do not have permission to access the requested content on this server.';
@@ -101,16 +102,18 @@ class fHTTPMessage extends fFatalMessage
         break;
     }
 
+
     $this->exception = $exception;
     $this->message = $this->exception->getMessage();
     $this->line = $this->exception->getLine();
     $this->file = $this->exception->getFile();
-
+    
     $fDebug = array_shift($this->registry->xpath('/registry/node[@name="fDebug"]'));
     if ( $fDebug->level > 0 )
     {
       $this->trace = $this->exception->getTrace();
     }
+    
     $dom = $this->createDOM();
     $this->content = $this->createPage( $dom );
   }
@@ -131,6 +134,9 @@ class fHTTPMessage extends fFatalMessage
     $root->appendChild( $dom->createElement("description", $this->description) );
     $root->appendChild( $dom->createElement("message", $this->message) );
 
+    // default parameterid
+    $pid = 0;
+    
     if ( isset($this->trace) )
     {
       $x = 0;
@@ -146,20 +152,13 @@ class fHTTPMessage extends fFatalMessage
         $argPopup = array();
         for ( $y = 0; $y < Count($entry['args']); $y++ )
         {
-          if ( is_object($entry['args'][$y]) )
+          if ( is_object($entry['args'][$y]) ||  is_array($entry['args'][$y]) )
           {
-            $args .= '<a href="#" id="ax' . $x . 'y' . $y . '" onClick="displayPopup(\'x' . $x . 'y' . $y . '\'); return false;">' . get_class($entry['args'][$y]) . '</a>';
-            $argPopup[] = $this->print_rToUL($entry['args'][$y]);
-          } elseif ( is_array($entry['args'][$y]) ) {
-            $args .= '<a href="#" onMouseOver="displayPopup($x, $y);" onMouseOut="hidePopup();">Array</a>';
-            $argPopup[] = $this->print_rToUL($entry['args'][$y]);
+            $argPopup[$pid] = $this->print_rToUL($entry['args'][$y]);
           } else {
-            $args .= '\'' . $entry['args'][$y] . '\'';
-            $argPopup[] = '';
+            $argPopup[$pid] = '';
           }
-          $args .= ', ';
         }
-        $args = rtrim($args, ', ');
 
         // Append the filename
         $file = $dom->createElement('file');
@@ -241,7 +240,6 @@ class fHTTPMessage extends fFatalMessage
     }
 
     $dom->appendChild($root);
-    $dom->formatOutput = true;
     return $dom;
   }
 
@@ -256,11 +254,9 @@ class fHTTPMessage extends fFatalMessage
     $lines = explode("\n", print_r($data, true));
     $depth = 0;
     $dom = new DOMDocument('1.0', 'UTF-8');
-    $dom->formatOutput = true;
     $dom->xmlStandalone = true;
-    $top = $dom->createElement('ul');
-    $dom->appendChild($top);
-    $last = $top;
+    $last = $dom->createElement('ul');
+    $dom->appendChild($last);
     foreach ( $lines AS $line )
     {
       $line = Trim($line);
@@ -288,4 +284,5 @@ class fHTTPMessage extends fFatalMessage
     }
     return $dom->saveHTML();
   }
+
 }

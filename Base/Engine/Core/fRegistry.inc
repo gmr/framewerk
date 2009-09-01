@@ -64,7 +64,7 @@ class fRegistry
     $this->name = $node;
 
     // Load the XML document
-    $file = new fFile('XML/registry.xml');
+    $file = new fFile('Configuration/registry.xml');
     $xml = simplexml_load_string($file->read());
 
     // Make sure it is an object and if not, throw an exception

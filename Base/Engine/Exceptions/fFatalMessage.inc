@@ -50,12 +50,14 @@ class fFatalMessage
   public function __construct()
   {
     // Load the registry or distribution registry
-    if ( is_file("XML/registry.xml") )
+    if ( is_file( 'Configuration/registry.xml' ) )
     {
-      $this->registry = @simplexml_load_file('XML/registry.xml');
-    } elseif (is_file("XML/registry.xml.dist" ) ) {
+      $this->registry = @simplexml_load_file('Configuration/registry.xml');
+    } 
+    elseif (is_file( 'Configuration/registry.xml.dist' ) ) 
+    {
       // The installer failed to read the README
-      $this->registry = @simplexml_load_file('XML/registry.xml.dist');
+      $this->registry = @simplexml_load_file('Configuration/registry.xml.dist');
     }
   }
 
@@ -76,7 +78,7 @@ class fFatalMessage
   protected function createPage($dom)
   {
     $xsl = new DOMDocument('1.0', 'UTF-8');
-    $xsl->load('Engine/XSL/ErrorMessage.xsl');
+    $xsl->load('Engine/Exceptions/XSL/ErrorMessage.xsl');
     $xslproc = new xsltProcessor();
     $xslproc->importStyleSheet($xsl);
     $content = $xslproc->transformToXml($dom);
@@ -103,7 +105,7 @@ class fFatalMessage
     $tpl = str_replace("{content}", $content, $tpl);
     $tpl = str_replace("{css}", $style, $tpl);
 
-    $class = new fClassInfo('fMain');
+    $class = new tClassInfo('fMain');
     $tpl = str_replace("{version}", $class->version, $tpl);
     $tpl = str_replace("{date}", strftime('%X %x'), $tpl);
     return $tpl;
@@ -125,9 +127,6 @@ class fFatalMessage
     $root->appendChild( $dom->createElement("file", $this->file) );
     $root->appendChild( $dom->createElement("line", $this->line) );
     $dom->appendChild($dom);
-
-
-
     return $dom;
   }
 }

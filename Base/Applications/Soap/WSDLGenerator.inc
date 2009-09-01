@@ -15,14 +15,19 @@
 
 final class WSDLGenerator extends fXMLApplication 
 {
-
+  
+  /**
+   * Constructor
+   * 
+   * @todo Figure out why this is commented out
+   */
   function __construct()
   {
-//    parent::__construct('application/wsdl+xml');
-    parent::__construct( );
-
+    parent::__construct('application/wsdl+xml');
   }
 
+  /**
+   * Application Excution Function
   function execute( $values )
   {
     // If we did not specify a class to generate WSDL for, exit

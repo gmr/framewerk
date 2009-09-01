@@ -38,7 +38,7 @@
  * @subpackage Core
  */
 
-class fClassInfo
+class tClassInfo
 {
   private $values;
 

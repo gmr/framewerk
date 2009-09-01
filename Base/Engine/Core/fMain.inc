@@ -46,7 +46,7 @@
   */
 class fMain extends fSingletonObject
 {
-  public $configuration, $baseURI, $fMessages, $fOutput, $fSession, $fSiteProcessor, $keyword, $lastError = array(), $lastInterface, $messages, $PDO, $site;
+  public $configuration, $baseURI, $fMessages, $fOutput, $fSiteProcessor, $keyword, $lastError = array(), $lastInterface, $messages, $PDO, $site;
 
   // Object variables
   private static $instance = NULL;
@@ -214,14 +214,13 @@ class fMain extends fSingletonObject
       }
     }
     $this->fProfile->profile('fMain-callbacks', 'fMain Callbacks Processed');
-
-    // Initialize the fSession Object
-    $this->fSession = fSession::getInstance();
     
     // Get any messages from the previous session
+    /**
     $this->fProfile->profile('messsages');
     $this->fMessages = fMessages::getInstance();
     $this->fProfile->profile('messages', 'fMessages Initialization');
+    **/
 
     // Initialize the fOutput Object
     $this->fProfile->profile('output');
@@ -233,14 +232,15 @@ class fMain extends fSingletonObject
 
     // Load the site.xml document
     $this->fProfile->profile('sitexml');
-    $file = new fFile( 'XML/site.xml' );
-    $data = $file->read();
-    parseIncludeXML( $data );
-    $sxml = simplexml_load_string( $data );
-    $this->site = $sxml;
-    if ( false === $sxml )
+    if ( is_file( 'Configuration/site.xml' ) )
     {
-      throw new Exception('There was an error parsing site.xml');
+      $file = new fFile( 'Configuration/site.xml' );
+      $data = $file->read();
+      $this->site = simplexml_load_string( $data );
+    }
+    if ( ( !isset( $this->site ) ) || ( $this->site === false ) ) 
+    {
+      throw new fHTTPException(500, 'There was an error parsing site.xml');
     }
     $this->fProfile->profile('sitexml', 'Load site.xml');
     $this->fProfile->profile('fSiteProcessor');
@@ -306,17 +306,11 @@ class fMain extends fSingletonObject
     }
 
     // Save our engine messages
-    $this->fMessages->save();
+    //$this->fMessages->save();
     $this->fProfile->profile('process', 'fMain->process() Container Profile');
 
     // Send the output
-    $this->fOutput->sendOutput();
-  }
-
-  function __destruct()
-  {
-// Log the traffic if the configuration says we can
-//if ( $fMain->configuration->site->logTraffic['enabled'] ) $log = new fTrafficLog();
+    $this->fOutput->sendOutput( );
   }
 
 }

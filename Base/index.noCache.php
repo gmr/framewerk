@@ -99,7 +99,7 @@ function __autoload($classname)
   {
     getFiles( );
   } 
-  elseif is_file( $files[$classname] ) ) // The file is set, is it a file?
+  elseif ( is_file( $files[$classname] ) ) // The file is set, is it a file?
   {
     // If debugging is working, add a debug message
     if ( is_object( $debug ) )

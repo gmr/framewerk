@@ -69,7 +69,7 @@ class fTheme extends fSingletonObject
     // Verify the theme directory exists
     if ( !is_dir($directory ) )
     {
-      throw new fHTTPException(501, 'Invalid theme "' . $name . '" specified.');
+      throw new fHTTPException(501, 'Invalid theme "' . $name . '" specified at: "' . $directory . '"');
     }
 
     // Verify the theme.xml file is there
@@ -99,8 +99,6 @@ class fTheme extends fSingletonObject
     $this->name    = strval($this->xml->name);
     $this->version = floatval($this->xml->version);
     $this->author  = strval($this->xml->author);
-    $this->url     = strval($this->xml->url);
-    $this->preview = strval($this->xml->preview);
   }
 
   /**
