@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registry version="3.0">
+
+ <!-- Ticks are disabled, no reason to have them in the registry but for reference
+ <node name="ticks">
+  <directory type="string">/tmp</directory>
+  <enabled type="bool">0</enabled>
+  <method type="string">file</method>
+ </node>
+ -->
+
+ <node name="fTheme">
+  <default>Default</default>
+ </node>
+ 
+ <node name="fMain">
+  <allowCaching type="bool">1</allowCaching>
+  <date_time_format>%x %X</date_time_format>
+  <defaultHandlers>
+   <application>LazyObject</application>
+  </defaultHandlers>
+  <directExecutionVariables type="bool">0</directExecutionVariables>
+  <enforceURL type="bool">0</enforceURL>
+  <locale>en_US</locale>
+
+  <php>
+   <!-- this is an example, don't enable it by default
+   <max_execution_time>2</max_execution_time>
+   -->
+  </php>
+  
+  <site>
+   <name>Framewerk Development Site</name>
+   <slogan>Breaking things here and there</slogan>
+   <contact>info@framewerk.org</contact>
+   <baseURI>/</baseURI>
+   <documentRoot>/Users/gmr/Source/framewerk/Base/</documentRoot>
+   <URL>http://localhost</URL>
+  </site>
+
+  <systemLoad>
+   <max type="int">5</max>
+   <type type="string">message</type>
+   <location type="string"></location>
+   <message type="string">The system load is currently too high to complete your request.</message>
+  </systemLoad>
+  <timezone>America/New_York</timezone>
+  <callback>
+  <!--
+   <class type="string">fPDO</class>
+  -->
+   <expose type="bool">1</expose>
+  </callback>
+ </node>
+
+ <node name="fOutput">
+  <expires type="int">3600</expires>
+  <tidy type="bool">1</tidy>
+  <charset>UTF-8</charset>
+ </node>
+
+ <node name="fParser">
+  <maxDepth type="int">15</maxDepth>
+ </node>
+
+ <!-- Engine Information Nodes -->
+ <node name="fDebug">
+  <level type="int">9</level>
+ </node>
+
+ <node name="fProfile">
+  <enabled type="bool">1</enabled>
+  <precision type="int">4</precision>
+ </node>
+
+ <node name="fWarn">
+  <enabled type="bool">1</enabled>
+ </node>
+
+</registry>

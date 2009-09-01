@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- $Id -->
+<!DOCTYPE site SYSTEM "site.dtd">
+<site>
+ <key uri="/" visible="1">
+  <title>Home</title>
+  <content type="String">Homepage</content>
+ </key>
+ <key uri="/css" visible="0">
+  <class>CSS</class>
+ </key>
+ <key uri="/javascript" visible="0">
+  <class>JavaScript</class>
+ </key>
+ <key uri="/captcha" visible="0">
+  <class>CaptchaImage</class>
+ </key>
+ <key uri="/download" visible="0">
+  <class>FileDownload</class>
+ </key>
+ <key uri="/soap" visible="0">
+  <class>tSoapServer</class>
+ </key>
+ <key uri="/soaptest" visible="0">
+  <class>SoapTest</class>
+ </key>
+ <key uri="/wsdl" visible="0">
+  <class>tWSDLGenerator</class>
+ </key>
+ <key uri="/FCKUpload" visible="0">
+  <class>FCKUpload</class>
+ </key>
+ <key uri="/language" visible="0">
+  <class>LanguageSelector</class>
+ </key>
+</site>
