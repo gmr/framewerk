@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:output encoding="UTF-8" omit-xml-declaration="yes" method="xml" version="1.0" indent="yes" />
+  <xsl:output encoding="UTF-8" omit-xml-declaration="yes" method="html" version="1.0" indent="yes" />
   <!--
     Debug Error
   -->
@@ -25,36 +25,70 @@
     <xsl:if test="count(code/backtrace) > 0">
       <h3>Backtrace</h3>
       <p>Functions called in order of most recent to least:</p>
-       <ol class="code">
+      <ol class="code">
         <xsl:for-each select="code/backtrace">
-         <li><span class="function">
-           <xsl:value-of select="class" />
-           <xsl:text>::</xsl:text>
-           <xsl:value-of select="function" />
-           <xsl:text>(</xsl:text>
-           <xsl:value-of disable-output-escaping="yes" select="args" />
-           <xsl:text>)</xsl:text>
-          </span>
-          <xsl:text> in </xsl:text>
-          <i><xsl:value-of select="file" /></i>
-          <xsl:text> on line </xsl:text>
-          <xsl:value-of select="@number" />
-          <xsl:if test="string-length(source) > 0">
-           <div class="source">
-            <xsl:value-of disable-output-escaping="yes" select="source" />
-           </div>
-          </xsl:if>
-          <xsl:for-each select="argPopup/popup">
-           <xsl:element name="div">
-            <xsl:attribute name="class">popup</xsl:attribute>
-            <xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
-            <xsl:value-of disable-output-escaping="yes" select="." />
-           </xsl:element>
-          </xsl:for-each>
-         </li>
+          <li>
+            <xsl:value-of select="class" />
+            <xsl:value-of select="type" />
+            <xsl:value-of select="function" />
+            <xsl:text>( </xsl:text>
+            <xsl:for-each select="args/arg">
+              <a href="#" class="arg">
+                <xsl:attribute name="id">
+                  <xsl:value-of select="name" />
+                  <xsl:value-of select="../../line" />
+                </xsl:attribute>
+                <xsl:value-of select="name" />
+              </a>
+              <xsl:if test="args/arg[last()]/name != name">
+                <xsl:text>, </xsl:text>
+              </xsl:if>
+            </xsl:for-each>
+            <xsl:text> )</xsl:text>
+            <xsl:text> in </xsl:text>
+            <i><xsl:value-of select="file" /></i>
+            <xsl:text> line </xsl:text>
+            <xsl:value-of select="line" />
+            <ul>
+              <xsl:for-each select="source/line">
+                <li>
+                  <xsl:if test="@number=../../line">
+                    <xsl:attribute name="class">highlight</xsl:attribute>
+                  </xsl:if>
+                  <pre>
+                    <xsl:value-of select="@number" />
+                    <xsl:text>. </xsl:text>
+                    <xsl:value-of select="." />
+                  </pre>
+                </li>
+              </xsl:for-each>
+            </ul>
+          </li>
         </xsl:for-each>
        </ol>
     </xsl:if>
+
+   <xsl:for-each select="code/backtrace/args/arg">
+    <div class="popup">
+      <xsl:attribute name="id">
+        <xsl:value-of select="name" />
+        <xsl:value-of select="../../line" />
+        <xsl:text>Popup</xsl:text>
+      </xsl:attribute>
+      <h2><xsl:value-of select="name" /> Properties</h2>
+      <a href="#" class="close" name="Close">
+        <xsl:attribute name="id">
+          <xsl:value-of select="name" />
+          <xsl:value-of select="../../line" />
+          <xsl:text>Close</xsl:text>
+        </xsl:attribute>
+        <xsl:text>X</xsl:text>
+      </a>
+      <xsl:copy-of select="value/ul" />
+    </div>
+   </xsl:for-each>
+
+
     <!-- Source File -->
     <xsl:if test="string-length(file) > 0">
       <div class="section file">
@@ -101,13 +135,17 @@
     <xsl:value-of select="class" />
     <xsl:value-of select="type" />
     <xsl:value-of select="function" />
+
+<!--
     <xsl:variable name="items" select="count(args/item)" />
     <xsl:text>(</xsl:text>
+
     <xsl:for-each select="args/item">
       <xsl:value-of select="." />
       <xsl:if test="position() &lt; $items">, </xsl:if>
     </xsl:for-each>
     <xsl:text>)</xsl:text>
+-->
 
     [<xsl:value-of select="file" />:<xsl:value-of select="line" />]
     <br />

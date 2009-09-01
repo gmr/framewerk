@@ -36,9 +36,28 @@ border-bottom: 1px dotted #800;
 padding-bottom: 0.1em;
 }
 
+ol {
+z-index: 100;
+margin: 1em 2em;
+list-style-position: inside;
+}
+
 ul {
- list-style: none;
- margin: 1em 2em;
+list-style: none;
+z-index: 100;
+margin: 1em 2em;
+}
+
+li {
+padding: .25em .5em;
+}
+li.highlight {
+background: #fefefe;
+color: #a00;
+}
+
+a.arg {
+color: #00a;
 }
 
 #main {
@@ -49,24 +68,61 @@ border: 1px solid #AAA;
 }
 
 div.popup {
-  display: none;
-  float: left;
+background-color: #fbf9ee;
+display: none;
+height: 200px;
+border: 1px solid #444;
+font-size: 10px;
+left: 0;
+overflow: auto;
+position: absolute;
+top: 0;
+width: 400px;
+z-index: 1000;
+}
+
+div.popup a.close {
+border: 1px solid #fcefa1;
+padding: .5em;
+margin: .5em .5em 0 0;
+color: #444;
+text-decoration: none;
+font-weight: bold;
+background-color: #fbf9ee;
+overflow: auto;
+float: right;
+display: block;
+}
+
+div.popup h2 {
+float: left;
+font-size: 12px;
+color: #444;
+padding: .5em 1em;
+}
+
+div.popup ul {
+clear: both;
+z-index: 1000;
+margin: -1em 1em 1em 1em;
+}
+
+div.popup ul li {
+
+padding: .25em;
+margin: .25em 0 .25em .25em;
+}
+
+div.popup ul li ul {
+margin: .5em 0 .5em 1em;
 }
 
 .section { margin-bottom: 1em; }
 
 .code {
-background: #EEE;
+background: #eee;
 border: 1px solid #DDD;
-display: block;
 font-family: "Lucida Console", "Courier New";
-font-size: 1em;
-padding: 0.5em;
-width: 98.7%;
-}
-
-.code .error-line {
-color: #F00;
 }
 
 .version, .client {

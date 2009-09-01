@@ -102,7 +102,6 @@ class fHTTPMessage extends fFatalMessage
         break;
     }
 
-
     $this->exception = $exception;
     $this->message = $this->exception->getMessage();
     $this->line = $this->exception->getLine();
@@ -134,111 +133,72 @@ class fHTTPMessage extends fFatalMessage
     $root->appendChild( $dom->createElement("description", $this->description) );
     $root->appendChild( $dom->createElement("message", $this->message) );
 
-    // default parameterid
-    $pid = 0;
-    
+    // If trace is on, show the back trace
     if ( isset($this->trace) )
     {
-      $x = 0;
       $code = $dom->createElement('code');
       $root->appendChild($code);
       foreach ( $this->trace AS $entry )
-      {
-        $line = $dom->createElement('backtrace');
-        $line->setAttribute('number', $entry['line']);
+      {      
+        $line = $dom->createElement( 'backtrace' );
         $code->appendChild($line);
 
-        $args = '';
-        $argPopup = array();
-        for ( $y = 0; $y < Count($entry['args']); $y++ )
+        // Set attributes
+        $line->appendChild( $dom->createElement( 'file', $entry['file'] ) );
+        $line->appendChild( $dom->createElement( 'line', $entry['line'] ) );
+        $line->appendChild( $dom->createElement( 'function', $entry['function'] ) );
+        $line->appendChild( $dom->createElement( 'class', $entry['class'] ) );
+        $type = $dom->createElement( 'type' );
+        $type->appendChild( $dom->createCDataSection( $entry['type'] ) );
+        $line->appendChild( $type );
+        
+        // Add args
+        $args = $dom->createElement( 'args' );
+        $line->appendChild( $args );
+        
+        for ( $y = 0; $y < count( $entry['args'] ); $y++ )
         {
-          if ( is_object($entry['args'][$y]) ||  is_array($entry['args'][$y]) )
+          $arg = $dom->createElement( 'arg' );
+          $args->appendChild( $arg );
+
+          $name = get_class( $entry['args'][$y] );
+          $arg->appendChild( $dom->createElement( 'name', $name ) );
+          $value = $dom->createElement( 'value' );
+          $arg->appendChild( $value );
+          
+          // Convert the values to a UL
+          if ( is_object( $entry['args'][$y] ) ||  is_array( $entry['args'][$y] ) )
           {
-            $argPopup[$pid] = $this->print_rToUL($entry['args'][$y]);
+            $importNode = $this->print_rToUL( $entry['args'][$y] );
+            $value->appendChild( $dom->importNode( $importNode, true ) );
           } else {
-            $argPopup[$pid] = '';
-          }
+            $value->appendChild( $dom->createCDataSection( $entry['args'][$y] ) );
+          }  
         }
-
-        // Append the filename
-        $file = $dom->createElement('file');
-        $line->appendChild($file);
-
-        $fMain = array_shift($this->registry->xpath('/registry/node[@name="fMain"]'));
-        $file->appendChild($dom->createTextNode(str_replace($fMain->site->documentRoot, '', $entry['file'])));
-
-        // Append the class
-        $class = $dom->createElement('class');
-        $line->appendChild($class);
-        $class->appendChild($dom->createTextNode($entry['class']));
-
-        // Append the function
-        $function = $dom->createElement('function');
-        $line->appendChild($function);
-        $function->appendChild($dom->createTextNode($entry['function']));
-
-        // Append the arguments
-        $arg = $dom->createElement('args');
-        $line->appendChild($arg);
-        $arg->appendChild($dom->createTextNode($args));
-
-        $arg = $dom->createElement('argPopup');
-        $line->appendChild($arg);
-        for ( $y = 0; $y < Count($argPopup); $y++ )
-        {
-          if ( strlen($argPopup[$y]))
-          {
-            $popup = $dom->createElement('popup');
-            $popup->setAttribute('id', 'x' . $x . 'y' . $y);
-            $popup->appendChild($dom->createCDATASection($argPopup[$y]));
-            $arg->appendChild($popup);
-          }
-        }
-
+    
         // Get the line of code
         $file = file_get_contents($entry['file']);
         $data = explode("\n", $file);
+        
         $source = $dom->createElement('source');
         $line->appendChild($source);
 
-        // Figure out how many lines of code we want to show, 10 fir the first entry, 3 for subsequent
-        if ( $x == 0 )
+        // Figure out where to start showing source
+        $offset = $entry['line'] - 5;
+        if ( $offset < 0 ) $offset = 0;
+        $max = $offset + 10;
+        if ( $max > count($data) ) $max = count($data);
+        
+        // Get the code
+        for ( $l = $offset; $l < $max; $l++ )
         {
-          $end = 10;
-          if ( $entry['line'] > 5 )
-          {
-            $start = $entry['line'] - 5;
-          } else {
-            $start = 1;
-          }
-        } else {
-          $end = 3;
-          if ( $entry['line'] > 2 )
-          {
-            $start = $entry['line'] - 2;
-          } else {
-            $start = 1;
-          }
+          $sourceCode = $dom->createElement( 'line' );
+          $sourceCode->setAttribute( 'number', $l );
+          $sourceCode->appendChild( $dom->createCDataSection( $data[$l] ) );        
+          $source->appendChild( $sourceCode );
         }
-
-        // Build our line of code
-        $sc = '';
-        for ( $y = $start; $y < ($start + $end); $y++ )
-        {
-
-          if ( $entry['line'] == ($y + 1) ) $sc .= '<span class="selected">';
-          $sc .= str_replace(' ', '&nbsp;',$y+1 . ': ' . $data[$y]);
-          if ( $entry['line'] == ($y + 1) ) $sc .= '</span>';
-          $sc .= '<br />';
-        }
-        // Append it
-        $source->appendChild($dom->createTextNode($sc));
-
-        // Increment our counter so we know if we're on the first line or not
-        $x++;
       }
     }
-
     $dom->appendChild($root);
     return $dom;
   }
@@ -247,15 +207,15 @@ class fHTTPMessage extends fFatalMessage
    * Pass in an object/array and turn it into an XHTML UL
    *
    * @param $data
-   * @return String
+   * @return DOM Document
    */
-  function print_rToUL($data)
+  function print_rToUL( $data, $baseDepth = 1 )
   {
     $lines = explode("\n", print_r($data, true));
     $depth = 0;
     $dom = new DOMDocument('1.0', 'UTF-8');
-    $dom->xmlStandalone = true;
-    $last = $dom->createElement('ul');
+    $ul = $dom->createElement('ul');
+    $last = $ul;
     $dom->appendChild($last);
     foreach ( $lines AS $line )
     {
@@ -263,26 +223,29 @@ class fHTTPMessage extends fFatalMessage
       switch ( substr($line, 0, 1) )
       {
         case '(':
-          $subnode = $dom->createElement('ul');
-          $last->appendChild($subnode);
+          if ( $depth >= $baseDepth )
+          {
+            $subnode = $dom->createElement('ul');
+            $current->appendChild($subnode);
+            $previous[$depth + 1] = $last;
+            $last = $subnode;
+          }
           $depth++;
-          $previous[$depth] = $last;
-          $last = $subnode;
           break;
         case ')':
           $last = $previous[$depth];
           $depth--;
           break;
         default:
-          if ( strlen(Trim($line)) )
+          if ( ( strlen( Trim($line) ) ) && ( $depth >= $baseDepth ) )
           {
-            $node = $dom->createElement('li');
-            $node->appendChild($dom->createTextNode($line));
+            $node = $dom->createElement('li', $line);
             $last->appendChild($node);
+            $current = $node;
           }
       }
     }
-    return $dom->saveHTML();
+    return $ul;
   }
 
 }
