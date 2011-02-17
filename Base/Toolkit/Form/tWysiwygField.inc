@@ -89,7 +89,7 @@ class tWysiwygField extends tFormField
     {
       // Add the tinymce info to the tinymce management object
       case 'FCKeditor':
-        $fckclass = fMain::getInstance()->configuration->site->documentRoot . '/Base/JavaScript/FCKeditor/fckeditor.php';
+        $fckclass = $_SERVER['DOCUMENT_ROOT'].(fMain::getInstance()->configuration->site->relativePath).'/Base/JavaScript/FCKeditor/fckeditor.php';
         if ( is_file($fckclass) )
         {
           include_once($fckclass);

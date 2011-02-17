@@ -199,7 +199,7 @@ class fParser
           // Load our dictionary if it's not loaded
           if ( $this->dictLoaded == false )
           {
-            $file = new fFile('XML/dictionary.xml');
+            $file = new fFile('Configuration/dictionary.xml');
             $temp = simplexml_load_string($file->read());
             $this->atDictionary = array();
             //index the dictionary for quick parsing

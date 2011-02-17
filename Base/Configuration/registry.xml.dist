@@ -34,7 +34,12 @@
    <slogan>Breaking things here and there</slogan>
    <contact>info@framewerk.org</contact>
    <baseURI>/</baseURI>
-   <documentRoot>/Users/gmr/Source/framewerk/Base/</documentRoot>
+   <!-- relativePath
+        If installed in document root, leave blank.
+	If installed in subdirectory, set to subdirectory name without surrounding slashes.
+	(e.g. if document root is /var/www and framewerk is installed in /var/www/foo/bar, set to foo/bar)
+   -->
+   <relativePath></relativePath>
    <URL>http://localhost</URL>
   </site>
 
@@ -61,6 +66,20 @@
 
  <node name="fParser">
   <maxDepth type="int">15</maxDepth>
+ </node>
+
+ <node name="fSession">
+  <!--enabled type="bool">0</enabled-->
+  <handler>
+    <class>fSessionStoreNull</class>
+  </handler>
+ </node>
+
+ <node name="fi18n">
+  <!--enabled type="bool">0</enabled-->
+  <loader>
+    <type>XML</type>
+  </loader>
  </node>
 
  <!-- Engine Information Nodes -->

@@ -48,7 +48,7 @@
 class fTheme extends fSingletonObject
 {
   private static $instance = NULL;
-  private $body, $htmlHeadContent, $registry, $themeDir, $onBuildCallback, $xml = NULL;
+  private $body, $htmlHeadContent, $htmlFooterContent, $registry, $themeDir, $onBuildCallback, $xml = NULL;
   private $jsFiles = array();
   public $folderName, $directory, $graphicsDirectory, $noTheme = false, $name, $prefetching = true, $template, $variableTemplate = false;
   public $author, $version, $preview, $url;
@@ -64,7 +64,7 @@ class fTheme extends fSingletonObject
   {
 
     // Build the theme path
-    $directory = rtrim($this->fMain->configuration->site->documentRoot, '/') . '/Themes/' . $name . '/';
+    $directory = "{$_SERVER['DOCUMENT_ROOT']}{$this->fMain->configuration->site->relativePath}/Themes/{$name}/";
 
     // Verify the theme directory exists
     if ( !is_dir($directory ) )
@@ -202,7 +202,7 @@ class fTheme extends fSingletonObject
       $this->htmlHead('<script type="text/javascript" src="' . $this->directory . 'JavaScript/' . $fileName . '.js"></script>');
     } else {
       // Look to see if it's in the base JS dir
-      if ( file_exists(rtrim($this->fMain->configuration->site->documentRoot, '/') . '/JavaScript/' . $fileName . '.js') )
+      if ( file_exists("{$_SERVER['DOCUMENT_ROOT']}{$this->fMain->configuration->site->relativePath}/JavaScript/{$fileName}.js") )
       {
         $this->htmlHead('<script type="text/javascript" src="' . rtrim($this->fMain->configuration->site->baseURI, '/') . '/JavaScript/' . $fileName . '.js"></script>');
       }
@@ -345,7 +345,7 @@ class fTheme extends fSingletonObject
       $template = 'template.html';
 
       // Check to see if there is an override file and process it if there is
-      $override = rtrim($this->fMain->configuration->site->documentRoot, '/') . "/css/" . $this->folderName . "/theme.xml";
+      $override = "{$_SERVER['DOCUMENT_ROOT']}{$this->fMain->configuration->site->relativePath}/css/{$this->folderName}/theme.xml";
       if ( is_file($override) )
       {
         $overrideXML = simplexml_load_file($override);
@@ -376,8 +376,11 @@ class fTheme extends fSingletonObject
       // Change our our {pageHead} variable
       $content = str_replace('{pageHead}',  $this->getHTMLHead(), $content);
 
+      // Change our our {pageFooter} variable
+      $content = str_replace('{pageFooter}',  $this->getHTMLFoot(), $content);
+
       // Open the template file and combine the output
-      $templateFile = rtrim($this->fMain->configuration->site->documentRoot, '/') . "/Themes/" . $this->folderName . "/" . $template;
+      $templateFile = "{$_SERVER['DOCUMENT_ROOT']}{$this->fMain->configuration->site->relativePath}/Themes/{$this->folderName}/{$template}";
       if ( is_file($templateFile) )
       {
         $page = file_get_contents($templateFile);
@@ -411,7 +414,7 @@ class fTheme extends fSingletonObject
   {
     $themes = array();
 
-    $dir = rtrim($this->fMain->configuration->site->documentRoot, '/') . '/Themes/';
+    $dir = "{$_SERVER['DOCUMENT_ROOT']}{$this->fMain->configuration->site->relativePath}/Themes/";
     if ( is_dir($dir) )
     {
       $d = opendir($dir);
@@ -471,7 +474,18 @@ class fTheme extends fSingletonObject
   }
 
   /**
-   * Add data the HTML <head> area
+   * Return the HTML Footer
+   *
+   * @return String
+   */
+  function getHTMLFoot()
+  {
+    // Trim off space from front and back of our htmlHeadContent variable and return the value
+    return trim($this->htmlFooterContent);
+  }
+
+  /**
+   * Add data to the HTML <head> area
    *
    * @param String $data
    */
@@ -481,6 +495,20 @@ class fTheme extends fSingletonObject
     {
       $this->htmlHeadContent .= $data . "\n";
       $this->fDebug->add("Adding htmlHead: " . HTMLEntities($data), 4);
+    }
+  }
+
+  /**
+   * Add data before the HTML </body> tag
+   *
+   * @param String $data
+   */
+  function htmlFoot($data)
+  {
+    if ( ( strlen($data) ) && ( !strstr($this->htmlFooterContent, $data) ) )
+    {
+      $this->htmlFooterContent .= $data . "\n";
+      $this->fDebug->add("Adding htmlFooter: " . HTMLEntities($data), 4);
     }
   }
 
