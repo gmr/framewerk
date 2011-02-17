@@ -177,18 +177,43 @@ class fUser extends fObject
   }
 
   /**
-   * Check to see if a permission is in the permission list
+   * Check to see if a permission is in the permission list. Permission string
+   * can contain any level of (), && and || for complex permissions.
+   * e.g. "((foo||bar)&&derp)||herp"
    *
-   * @param string $permission
+   * Special Permission Functions:
+   * id(1234)
+   * username(foo)
+   * email(foo@bar.com)
+   * e.g. "id(1234)||username(foo)||derp"
+   *
+   * @param string $permissionString
    * @return bool
    */
-  function checkPermission($permission)
+  function checkPermission($permissionString)
   {
+    static $pregCallBack=null;
+
     if ( ( in_array('Administrator', $this->permissionList) ) ) return true;
-    $permission = explode('||', $permission);
-    foreach($permission as $perm)
-      if ( in_array($perm, $this->permissionList) ) return true;
-    return false;
+
+    if(trim($permissionString)=='')
+      return true;
+
+    if($pregCallBack==null) {
+      if($this->id)       $this->permissionList[] = "id({$this->id})";
+      if($this->username) $this->permissionList[] = "username({$this->username})";
+      if($this->email)    $this->permissionList[] = "email({$this->email})";
+
+      $pregCallBack = create_function('$m', "\$a=array('".implode("','", $this->permissionList)."'); return in_array(\$m[1], \$a)?'true':'false';");
+    }
+
+    $permissionString = preg_replace('/ /', '', $permissionString);
+    $permissionString = preg_replace_callback('/([A-z0-9_]+(\([A-z0-9_]+\))?)/', $pregCallBack, $permissionString);
+    if(!preg_match('/^(true|false|[()|&])+$/', $permissionString)) return false;
+
+    $evalsuccess = @eval("\$result = $permissionString;");
+
+    return $evalsuccess===null && $result;
   }
 
   /**
