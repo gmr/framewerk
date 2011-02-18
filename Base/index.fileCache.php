@@ -16,7 +16,7 @@
 /**
  * Change this to true if you would like to allow the engine to include tick/low level debugging.
  * This does not enable tick/low level debugging.  Once you have set this to true then you must
- * enable it in XML/configuration.xml.  By adding this level of check we remove redudant file loading
+ * enable it in Configuration/registry.xml.  By adding this level of check we remove redudant file loading
  * of the configuration which has all the important and related tick debugging settings.
  */
 define( 'TICKS', false );

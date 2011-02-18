@@ -43,6 +43,22 @@
    <URL>http://localhost</URL>
   </site>
 
+ <node name="fPDO">
+   <dsn>pgsql:host=127.0.0.1;dbname=some_database;</dsn>
+   <username>foo</username>
+   <password>bar</password>
+   <formats>
+    <format driver="pgsql" name="Full Date/Time">HH:MI am - Day Mon DDth, YYYY</format>
+    <format driver="pgsql" name="Short Date/Time">MM/DD/YY HH:MI am</format>
+   </formats>
+   <commands>
+    <command driver="pgsql">SET datestyle='SQL';</command>
+   </commands>
+   <attributes>
+    <attribute type="const" name="PDO::ATTR_ERRMODE">PDO::ERRMODE_EXCEPTION</attribute>
+   </attributes>
+  </node>
+
   <systemLoad>
    <max type="int">5</max>
    <type type="string">message</type>

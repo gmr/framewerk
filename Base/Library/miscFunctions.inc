@@ -190,12 +190,12 @@ function returnIncrementedValue($values)
 /**
  * Block variable list
  *
- * Returns parser variables in order for blocks defined in XML/blocks.xml
+ * Returns parser variables in order for blocks defined in Configuration/blocks.xml
  * @return string of blocks
  */
 function returnBlockVariables()
 {
-  $xml = simplexml_load_file("XML/blocks.xml");
+  $xml = simplexml_load_file("Configuration/blocks.xml");
   $output = '';
   $array = array();
   foreach($xml->item AS $item)

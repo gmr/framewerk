@@ -26,7 +26,7 @@
 /**
  * Internationalization (i18n) Data Loader XML Implementation.
  *
- * Reads the current i18n dictionary from XML/i18n.xml
+ * Reads the current i18n dictionary from Configuration/i18n.xml
  *
  * @author     Gavin M. Roy <gavinmroy@gmail.com>
  * @link       http://framewerk.org

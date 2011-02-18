@@ -7,9 +7,9 @@ if ( $_SERVER['argc'] < 2 )
   die("No arguments provided.\n");
 }
 
-if ( isset( $_ENV['SVC'] ) && file_exists( 'XML/fRegistry/Services.xml.production' ) )
+if ( isset( $_ENV['SVC'] ) && file_exists( 'Configuration/fRegistry/Services.xml.production' ) )
 {
-  $xml = simplexml_load_file( '../Common/XML/fRegistry/Services.xml.production' );
+  $xml = simplexml_load_file( '../Common/Configuration/fRegistry/Services.xml.production' );
   if ( ! $xml )
   {
     die("Unable to lookup service configuration!\n");

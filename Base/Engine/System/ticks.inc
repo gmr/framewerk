@@ -26,7 +26,7 @@
 /**
   * Tick debugging functions
   *
-  * This program will check XML/registry.xml to see if ticks are enabled
+  * This program will check Configuration/registry.xml to see if ticks are enabled
   * us turned on, and if so it will register the functions to use it
   *
   * @author     Gavin M. Roy <gavinmroy@gmail.com>
@@ -41,7 +41,7 @@
   */
 
 // Load the registry file
-$xml = @simplexml_load_file('XML/registry.xml');
+$xml = @simplexml_load_file('Configuration/registry.xml');
 if ( !is_object($xml) )
   die('Fatal Error: ticks are enabled but the registry file can not be read.');
 

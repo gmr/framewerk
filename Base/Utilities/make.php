@@ -123,15 +123,15 @@ HELPMESSAGE;
   }
 
   // Make sure framewerk configuration exists
-  if ( !file_exists('XML/configuration.xml') )
+  if ( !file_exists('Configuration/registry.xml') )
   {
-    msg('(Fatal Error) -> Missing Framewerk "configuration.xml" file.', true);
+    msg('(Fatal Error) -> Missing Framewerk "registry.xml" file.', true);
   }
 
   // Load configuration document
-  if ( !$xml = simplexml_load_file('XML/configuration.xml') )
+  if ( !$xml = simplexml_load_file('Configuration/registry.xml') )
   {
-    msg('(Fatal Error) -> Invalid "configuration.xml" file.', true);
+    msg('(Fatal Error) -> Invalid "registry.xml" file.', true);
   }
 
   // Make sure this is a valid Application name
@@ -294,6 +294,7 @@ TEMPLATE;
     {
       msg('Adding Lazy Add Edit Remove Instance');
 
+      //fixme: use Registry('tPDO') instead
       $pdo = new PDO($xml->PDO->dsn, $xml->PDO->username, (isset($xml->PDO->password) ? $xml->PDO->password : NULL));
       $query = $pdo->prepare('SELECT f.attname as field FROM pg_tables t JOIN pg_class c ON c.relname = t.tablename JOIN pg_attribute f ON c.oid = f.attrelid WHERE relkind = \'r\' and f.attnum > 0 AND t.schemaname = \'public\' AND t.tablename = :table;');
       $query->bindParam(':table', $options['ladder']);
@@ -359,7 +360,7 @@ TEMPLATE;
     $dom = new DOMDocument();
     $dom->preserveWhiteSpace = false;
     $dom->formatOutput = true;
-    $dom->load('XML/site.xml');
+    $dom->load('Configuration/site.xml');
 
     // Instance XPath
     $xpath = new DOMXPath($dom);
@@ -405,7 +406,7 @@ TEMPLATE;
       }
 
       // Save site.xml
-      if ( $dom->save('XML/site.xml') === false )
+      if ( $dom->save('Configuration/site.xml') === false )
       {
         msg('Could not add specified keyword to "site.xml" document.  Check permissions.');
       }

@@ -45,7 +45,7 @@ function spellcheck($string)
 
   /*
   $config = pspell_config_create('en');
-  pspell_config_personal($config, $_SERVER['DOCUMENT_ROOT'] . "/Utilities/custom.pws");
+  pspell_config_personal($config, 'Utilities/custom.pws');
   $int = pspell_new_config($config);
   pspell_add_to_personal($int, "GameSurge");
   pspell_save_wordlist($int);

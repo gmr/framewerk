@@ -32,8 +32,8 @@
  * Menu Display Object.
  *
  * This object is responsible for generating site menu output from the definitions
- * in XML/menu.xml and can be accessed via the system variable {@menu}.  Behavior
- * is dictated by the configuration directives in XML/configuration.xml
+ * in Configuration/menu.xml and can be accessed via the system variable {@menu}.  Behavior
+ * is dictated by the configuration directives in Configuration/registry.xml
  *
  * @author     Gavin M. Roy <gavinmroy@gmail.com>
  * @link       http://framewerk.org

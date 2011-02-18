@@ -103,7 +103,7 @@ class fRegistry
       // Build our DOMDOcument and load the contents of the registry file
       $dom = new DOMDocument('1.0', 'UTF-8');
       $dom->formatOutput = true;
-      $file = new fFile('XML/registry.xml');
+      $file = new fFile('Configuration/registry.xml');
       $dom->loadXML($file->read());
 
       // Get our registry node
@@ -120,7 +120,7 @@ class fRegistry
       $registry->replaceChild($tree, $entries->item(0));
 
       // Try and save the document
-      if ( !$dom->save($_SERVER['DOCUMENT_ROOT'] . '/XML/registry.xml')  )
+      if ( !$dom->save('Configuration/registry.xml')  )
       {
         // Add an engine warning
         $this->fWarn->add('fRegistry could not save the updated registry.xml file.');
