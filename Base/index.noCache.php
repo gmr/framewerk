@@ -51,7 +51,8 @@ function mapClassFiles( $directory )
   }
 
   $dir = opendir( $directory );
-  while ( ($entry = readdir( $dir ) ) ) {
+  while ( ($entry = readdir( $dir ) ) )
+  {
     if ( $entry[0] == '.' )
     {
       //ignore ., .., .svn, .git, etc
