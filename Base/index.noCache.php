@@ -27,61 +27,45 @@ define( 'TICKS', false );
  */
 define( 'SANITY_CHECK', true );
 
-// If we enable ticks, include the code for it.  
-if ( TICKS == true )
-{
-  require_once("Engine/System/ticks.inc");
-}
-
 // Built in define for transparent file caching, change this to false if you don't want caching
 define( 'FILE_CACHING_ENABLED', false );
 
-// Prepare the Debugging class
-require( 'Engine/System/debug.inc' );
+/**
+ * Define PHP class filesystem map array.
+ */
+$_classFiles = null;
 
 /**
  * Build an array of all files
  *
  * @param string Directory
  */
-function mapFiles( $directory )
+function mapClassFiles( $directory )
 {
-  global $files, $ignore;
+  global $_classFiles;
+  static $ignore = array( 'Engine/System' );
+
+  if ( in_array( $directory, $ignore ) )
+  {
+    return;
+  }
 
   $dir = opendir( $directory );
-  while ( ( $entry = readdir( $dir ) ) )
-  {
-    if ( $entry != "." && $entry != ".." && !( strstr( $entry, '.svn' ) > -1 ) )
+  while ( ($entry = readdir( $dir ) ) ) {
+    if ( $entry[0] == '.' )
     {
-      $file = $directory . '/' . $entry;
-      if ( is_dir( $file ) && !in_array( $file, $ignore ) )
-      {
-        mapFiles( $file );
-      }
-      elseif ( is_file( $file ) && ( substr( $file, strlen( $file ) - 4, 4 ) == '.inc' ) )
-      {
-        $temp = explode( '.', $entry );
-        $files[$temp[0]] = $directory . '/' . $entry;
-      }
+      //ignore ., .., .svn, .git, etc
+      continue;
     }
-  }
-}
-
-/**
- * Get the locations of our class files for the autoloader
- */
-function getFiles( )
-{
-  global $files;
-
-  $files = array( );
-    
-  // Map files in reverse of this order
-  $searchPaths = array( '../Base/', '../Site/' );
-    
-  foreach ( $searchPaths as $searchPath )
-  {
-    mapFiles( realpath( $searchPath ) );
+    $file = "{$directory}/{$entry}";
+    if ( is_dir( $file ) )
+    {
+      mapClassFiles($file);
+    }
+    elseif ( is_file( $file ) && preg_match( ';(^|/)([^/]+)[.]inc$;', $file, $regs ) )
+    {
+      $_classFiles[$regs[2]] = $file;
+    }
   }
 }
 
@@ -90,56 +74,58 @@ function getFiles( )
  *
  * @param Object $classname
  */
-function __autoload($classname)
+function __autoload( $classname )
 {
-  global $debug, $files;
+  global $_classFiles, $debug;
 
-  // If we asked for a file not in the file map, try and re-map the files
-  if ( !isset( $files[$classname] ) )
+  if ( $_classFiles === null )
   {
-    getFiles( );
-  } 
-  elseif ( is_file( $files[$classname] ) ) // The file is set, is it a file?
+    $_classFiles = array();
+
+    // Map files in reverse of this order
+    $searchPaths = array( '../Base/', '../Site/' );
+    foreach ( $searchPaths as $path )
+    {
+      mapClassFiles( realpath( $path ) );
+    }
+  }
+
+  // Check that the file is mapped
+  if ( isset( $_classFiles[$classname] ) )
   {
     // If debugging is working, add a debug message
     if ( is_object( $debug ) )
     {
       $debug->addMessage( "Autoloading Object: $classname" );
     }
-    
     // Since the user should never be requiring a file, no need for require_once
-    require( $files[$classname] );
-  } else {
-    // Wow we have it in our map but it's not a file?  Update the file list again and try yet again.
-    getFiles( );
-    if ( isset( $files[$classname] ) && is_file( $files[$classname] ) )
-    {
-      require( $files[$classname] );
-    }
+    require( $_classFiles[$classname] );
   }
 }
 
-//Build our file and ignore arrays
-$files = array( );
-$ignore = array( );
-$ignore[] = './Engine/System';
-getFiles( true, false );
+// If we enable ticks, include the code for it.  
+if ( TICKS == true )
+{
+  require_once( 'Engine/System/ticks.inc' );
+}
+
+// Prepare the Debugging class
+require_once( 'Engine/System/debug.inc' );
 
 // Make sure we have everything needed to run Framewerk.  Turn this off once you're up and running for a speed-up
-if ( SANITY_CHECK === true )
+if(SANITY_CHECK === true)
 {
-
   // Check for PHP Version Information
-  if ( version_compare( phpversion( ), "5.1", "<" ) )
+  if ( version_compare( phpversion(), "5.1", "<" ) )
   {
     throw new fHTTPException( 501, "Framewerk requires PHP version 5.1 and above." );
   }
   
   // Set our Required extensions
-  $extension   = array( "dom", "SimpleXML", "xsl" );
+  $extension = array( "dom", "SimpleXML", "xsl" );
   
   // Check for required extensions
-  $extensions = get_loaded_extensions( );
+  $extensions = get_loaded_extensions();
   foreach ( $extension AS $k => $check )
   {
     if ( in_array( $check, $extensions ) ) // If the required ext is in the loaded extension
@@ -151,11 +137,12 @@ if ( SANITY_CHECK === true )
   // At this point $extension represents the required extensions that are not loaded.
   if ( ( $cnt = count( $extension ) ) > 0 )
   {
-    throw new fHTTPException( 501, "Your PHP installation is missing $cnt required extension(s), as follows: " . join(", ", $extension) );
+    $extensions = implode( ', ', $extension);
+    throw new fHTTPException( 501, "Your PHP installation is missing {$cnt} required extension(s), as follows: {$extensions}" );
   }
 
 }
 
 // Create our instance of the debug and Framewerk object
-$fMain = fMain::getInstance( );
-$fMain->process( );
+$fMain = fMain::getInstance();
+$fMain->process();
