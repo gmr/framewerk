@@ -91,14 +91,6 @@ class fMain extends fSingletonObject
     $this->fProfile = fProfile::getInstance();
     $this->fWarn    = fWarn::getInstance();
 
-    // Enable debugging for myb debug users
-    if ( $_COOKIE['_mybUtype'] == 3 || $_COOKIE['_mybUtype'] == 2 )
-    {
-      $this->fDebug->setLevel(1);
-      $this->fWarn->enable(true);
-      $this->fProfile->enable(true, 4);
-    }    
-
     // Read our configuration file
     $this->fProfile->profile('ConfLoad');
 
