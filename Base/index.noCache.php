@@ -113,10 +113,10 @@ if ( TICKS == true )
 require_once( 'Engine/System/debug.inc' );
 
 // Make sure we have everything needed to run Framewerk.  Turn this off once you're up and running for a speed-up
-if(SANITY_CHECK === true)
+if ( SANITY_CHECK === true )
 {
   // Check for PHP Version Information
-  if ( version_compare( phpversion(), "5.1", "<" ) )
+  if ( version_compare( phpversion( ), "5.1", "<" ) )
   {
     throw new fHTTPException( 501, "Framewerk requires PHP version 5.1 and above." );
   }
@@ -125,7 +125,7 @@ if(SANITY_CHECK === true)
   $extension = array( "dom", "SimpleXML", "xsl" );
   
   // Check for required extensions
-  $extensions = get_loaded_extensions();
+  $extensions = get_loaded_extensions( );
   foreach ( $extension AS $k => $check )
   {
     if ( in_array( $check, $extensions ) ) // If the required ext is in the loaded extension
@@ -144,5 +144,5 @@ if(SANITY_CHECK === true)
 }
 
 // Create our instance of the debug and Framewerk object
-$fMain = fMain::getInstance();
-$fMain->process();
+$fMain = fMain::getInstance( );
+$fMain->process( );
